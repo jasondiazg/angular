@@ -1,0 +1,25 @@
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <p-button type="button" label="New" icon="pi pi-plus"></p-button>
+        <p-button type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></p-button>
+    
+        <i class="pi pi-bars"></i>
+        
+        <p-splitButton label="Save" icon="pi pi-check" [model]="items" styleClass="ui-button-warning"></p-splitButton>
+    </div>
+    
+    <div class="ui-toolbar-group-right">
+        <p-button type="button" icon="pi pi-search"></p-button>
+        <p-button type="button" icon="pi pi-calendar" class="ui-button-success"></p-button>
+        <p-button type="button" icon="pi pi-times" class="ui-button-danger"></p-button>
+    </div>
+</p-toolbar>
+
+<div class="p-grid">
+    <div class="p-col-3 p-lg-3 p-md-3">
+        <p-panelMenu [model]="items" [style]="{'width':'300px'}" [transitionOptions]="'400ms'"></p-panelMenu>
+    </div>    
+    <div class="p-col-9 p-lg-9 p-md-9">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<br />
+<form [formGroup]="form">
+    <div class="p-grid">
+        <div class="p-col">
+            <p-dropdown [options]="chuckNorrisCategories" formControlName="category">
+                <ng-template let-item pTemplate="selectedItem">
+                    {{item.label}}
+                </ng-template>
+                <ng-template let-type pTemplate="item">
+                    {{type.label}}
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="p-col">
+            <input id="float-input" type="text" size="30" pInputText formControlName="query" placeholder="Query" />
+        </div>
+        <div class="p-col">
+            <button id="random-joke" (click)="getRandomJoke()">Random Joke</button>
+            <button id="joke-category" (click)="getRandomJokeByCategory()" [disabled]="!form.value.category">Joke
+                Category</button>
+            <button id="joke-query" (click)="getJokesByQuery()" [disabled]="!form.value.query">Joke Query</button>
+        </div>
+    </div>
+</form>
+<div class="p-grid">
+    <div class="p-col">
+        <p-table [value]="chuckNorrisJokes">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let col of columns;">{{col.label}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-columns="columns" let-rowData>
+                <tr>
+                    <td>
+                        <span>{{rowData.id}}</span>
+                    </td>
+                    <td>
+                        <span>{{rowData.value}}</span>
+                    </td>
+                    <td>
+                        <a [href]="rowData.url">Go to joke</a>
+                    </td>
+                    <td>
+                        <img [src]="rowData.icon_url" />
+                    </td>
+                    <td>
+                        <span>{{rowData.created_at | date}}</span>
+                    </td>
+                    <td>
+                        <span>{{rowData.updated_at | date}}</span>
+                    </td>
+                    <!-- <td *ngFor="let col of columns;">
+                        <span *ngIf="col.value != 'icon_url'">{{rowData[col.value]}}</span>
+                        <img *ngIf="col.value == 'icon_url'" [src]="rowData[col.value]" />
+                    </td> -->
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
