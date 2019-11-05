@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChuckNorrisService } from '../services/chuck-norris.service';
 import { ChuckNorrisJoke, ChuckNorrisJokes, ChuckNorrisCategory } from '../entities/entities';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   templateUrl: './chuck-norris.component.html',
   styleUrls: ['./chuck-norris.component.css']
 })
-export class ChuckNorrisComponent implements OnInit {
+export class ChuckNorrisComponent implements OnInit, OnDestroy {
 
   // internal variables
   chuckNorrisJokes: ChuckNorrisJoke[] = [];
   chuckNorrisCategories: ChuckNorrisCategory[] = [];
   form: FormGroup;
-  totalResults: number;
+  totalRecords: number;
   columns: Array<{ label: string, value: string }> = [];
+  isLoading: boolean;
 
   // reference to subscriptions
   chuckNorrisServiceCategories$: Subscription;
@@ -28,6 +29,11 @@ export class ChuckNorrisComponent implements OnInit {
     this.initializeForm();
     this.initializeTable();
     this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.chuckNorrisServiceJokes$ && this.chuckNorrisServiceJokes$.unsubscribe();
+    this.chuckNorrisServiceCategories$ && this.chuckNorrisServiceCategories$.unsubscribe();
   }
 
   initializeForm() {
@@ -66,19 +72,21 @@ export class ChuckNorrisComponent implements OnInit {
   }
 
   getJokesByQuery() {
+    this.isLoading = true;
     this.chuckNorrisServiceJokes$ = this.chuckNorrisService.getJokesByQuery(this.form.controls.query.value).subscribe(jokes => this.handleJokesResponse(jokes));
   }
 
   private handleSimpleJokeResponse(joke: ChuckNorrisJoke) {
     this.chuckNorrisJokes.length = 0;
-    this.totalResults = 1;
+    this.totalRecords = 1;
     this.chuckNorrisJokes.push(joke);
   }
 
   private handleJokesResponse(jokes: ChuckNorrisJokes) {
     this.chuckNorrisJokes.length = 0;
-    this.totalResults = jokes.total;
+    this.totalRecords = jokes.total;
     this.chuckNorrisJokes = jokes.result;
+    this.isLoading = false;
   }
 
   private handleCategories(categories: string[]) {

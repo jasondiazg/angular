@@ -24,7 +24,7 @@
 </form>
 <div class="p-grid">
     <div class="p-col">
-        <p-table [value]="chuckNorrisJokes">
+        <p-table [value]="chuckNorrisJokes" [totalRecords]="totalRecords" [paginator]="true" [rows]="5" [loading]="isLoading">
             <ng-template pTemplate="header">
                 <tr>
                     <th *ngFor="let col of columns;">{{col.label}}</th>
@@ -59,3 +59,4 @@
         </p-table>
     </div>
 </div>
+{{totalRecords}}

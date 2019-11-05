@@ -6,6 +6,7 @@ import { MenuModule } from './menu/menu.module';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { ExampleModule } from './example/example.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SharedModule } from './shared/shared.module';
     MenuModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    SharedModule
+    SharedModule,
+    ExampleModule
   ],
   exports: [
     MenuModule,

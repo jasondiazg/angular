@@ -24,9 +24,9 @@ export class ChuckNorrisService {
 
   /**
   * Get categories
-  * @returns {Observable<Category[]>} RequestData
+  * @returns {Observable<string[]>} RequestData
   */
-  getCategories(): Observable<Category[]> {
+  getCategories(): Observable<string[]> {
     return this.http.get<any>(`${environment.apis[`ChuckNorrisApi`]}/categories`)
       .pipe(
         map(response => response),
